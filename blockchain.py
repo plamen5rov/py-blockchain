@@ -27,4 +27,8 @@ add_value(tx_amount,get_last_blockchain_value())
 tx_amount = get_user_input()
 add_value(tx_amount,get_last_blockchain_value())
 
-print(blockchain)
+for block in blockchain:
+    print("Outputting block")
+    print(block)
+
+print("Done!")
