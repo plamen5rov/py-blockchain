@@ -35,12 +35,15 @@ while True:
     print("Please, choose!")
     print("1: Add new transaction")
     print("2: Output the blocks")
+    print("q: Quit program")
     user_choice = get_user_choice()
     if user_choice == '1':
         tx_amount = get_transaction_value()
         add_value(tx_amount,get_last_blockchain_value())
     elif user_choice == '2':
         print_blocks()
+    elif user_choice == 'q':
+        break
     else:
         print("Invalid input!")
 
