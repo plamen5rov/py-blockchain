@@ -33,6 +33,8 @@ def print_blocks():
     for block in blockchain:
         print("Outputting block")
         print(block)
+    else:
+        print("-" * 20)
 
 def verify_chain():
     block_index = 0
@@ -73,6 +75,9 @@ while waiting_for_input:
     if not verify_chain():
         print("Invalid blockchain!")
         break
+    
+else:
+    print("User left.")
 
 
 
