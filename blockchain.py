@@ -11,7 +11,7 @@ def get_last_blockchain_value():
     return blockchain[-1]
 
 
-def add_transaction(sender, recipient, amount=1.0):
+def add_transaction(recipient,sender=owner, amount=1.0):
     """ Appends new value of the current blockchain
     
     Arguments:
@@ -87,7 +87,9 @@ while waiting_for_input:
     user_choice = get_user_choice()
     if user_choice == '1':
         tx_data = get_transaction_value()
-        add_transaction(tx_amount,get_last_blockchain_value())
+        recipient, amount = tx_data
+        add_transaction(recipient, amount=amount)
+        print(open_transactions)
     elif user_choice == '2':
         print_blocks()
     elif user_choice == 'h':
