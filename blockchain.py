@@ -1,4 +1,6 @@
 # Initializing our blockchain list
+MINING_REWARD = 10
+
 genesis_block = {
     'previous_hash': '', 
     'index': 0, 
@@ -15,12 +17,12 @@ def hash_block(block):
 
 
 def get_balance(participant):
-    tx_sender = [[tx['amount'] for tx in block['transactions'] if tx['sender'] == participant ]for block in blockchain]
+    tx_sender = [[tx['amount'] for tx in block['transactions'] if tx['sender'] == participant]for block in blockchain]
     amount_sent = 0
     for tx in tx_sender:
         if len(tx) > 0:
             amount_sent += tx[0]
-    tx_recipient = [[tx['amount'] for tx in block['transactions'] if tx['recipient'] == participant ]for block in blockchain]
+    tx_recipient = [[tx['amount'] for tx in block['transactions'] if tx['recipient'] == participant]for block in blockchain]
     amount_received = 0
     for tx in tx_recipient:
         if len(tx) > 0:
@@ -57,7 +59,12 @@ def add_transaction(recipient,sender=owner, amount=1.0):
 def mine_block():
     last_block = blockchain[-1]
     hashed_block =  hash_block(last_block)
-    print(hashed_block)
+    reward_transaction = {
+        'sender': 'MINING', 
+        'recipient': owner, 
+        'amount': MINING_REWARD
+        }
+    open_transactions.append(reward_transaction)
     block = {
         'previous_hash': hashed_block, 
         'index': len(blockchain), 
@@ -136,7 +143,9 @@ while waiting_for_input:
         print_blocks()
         print("Invalid blockchain!")
         break
+    print('#' * 40)
     print('Your balance is: '+ str(get_balance('Plam')) + ' coins.')
+    print('#' * 40)
     
 else:
     print("User left.")
