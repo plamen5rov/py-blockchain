@@ -113,7 +113,17 @@ def verify_chain():
     return True
 
         
-    
+def verify_transactions():
+    return all([verify_transactions(tx) for tx in open_transactions])
+
+    # is_valid = True
+    # for tx in open_transactions:
+    #     if verify_transaction(tx):
+    #         is_valid = True
+    #     else:
+    #         is_valid = False
+    # return is_valid
+ 
 
 waiting_for_input = True       
 
@@ -123,6 +133,7 @@ while waiting_for_input:
     print("2: Mine new blocks")
     print("3: Output the blocks")
     print("4: Output the participants")
+    print("5: Check transaction validity")
     print("h: Manipulate the chain")
     print("q: Quit program")
     user_choice = get_user_choice()
@@ -141,6 +152,11 @@ while waiting_for_input:
         print_blocks()
     elif user_choice == '4':
         print(participants)
+    elif user_choice == '5':
+        if verify_transactions():
+            print('All transactions are valid')
+        else:
+            print('All transactions are NOT valid')
     elif user_choice == 'h':
         if len(blockchain) >= 1:
             blockchain[0] = {
