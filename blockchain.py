@@ -139,7 +139,9 @@ while waiting_for_input:
         if add_transaction(recipient, amount=amount):
             print('Transaction Added!')
         else:
+            print('*' * 80)
             print('Transaction FAILED!')
+            print('*' * 80)
         print(open_transactions)
     elif user_choice == '2':
         if mine_block():
