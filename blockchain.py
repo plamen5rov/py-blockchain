@@ -173,7 +173,7 @@ while waiting_for_input:
         print("Invalid blockchain!")
         break
     print('#' * 40)
-    print('Your balance is: '+ str(get_balance('Plam')) + ' coins.')
+    print('The balance of {} is: {:6.2f} coins.'.format(owner, get_balance(owner)))
     print('#' * 40)
     
 else:
