@@ -8,7 +8,8 @@ MINING_REWARD = 10
 genesis_block = {
     'previous_hash': '', 
     'index': 0, 
-    'transactions': []
+    'transactions': [],
+    'proof': 100
 }
 blockchain = [genesis_block]
 open_transactions = []
@@ -31,7 +32,7 @@ def proof_of_work():
     last_block = blockchain[-1]
     last_hash = hash_block(last_block)
     proof = 0
-    while valid_proof(open_transactions, last_hash, proof):
+    while not valid_proof(open_transactions, last_hash, proof):
         proof += 1
     return proof
 
@@ -52,11 +53,11 @@ def get_last_blockchain_value():
         return None
     return blockchain[-1]
 
+
 def verify_transaction(transaction):
     sender_balance = get_balance(transaction['sender'])
     return sender_balance >= transaction['amount']
         
-    
     
 def add_transaction(recipient,sender=owner, amount=1.0):
     """ Appends new value of the current blockchain
@@ -82,9 +83,8 @@ def add_transaction(recipient,sender=owner, amount=1.0):
 def mine_block():
     last_block = blockchain[-1]
     hashed_block =  hash_block(last_block)
-    print('################################################################')
-    print(hashed_block)
-    print('################################################################')
+    proof = proof_of_work()
+    
     reward_transaction = {
         'sender': 'MINING', 
         'recipient': owner, 
@@ -95,7 +95,8 @@ def mine_block():
     block = {
         'previous_hash': hashed_block, 
         'index': len(blockchain), 
-        'transactions': copied_transactions
+        'transactions': copied_transactions,
+        'proof': proof
         }
     blockchain.append(block)
     return True
@@ -126,6 +127,9 @@ def verify_chain():
         if index == 0:
             continue
         if block['previous_hash'] != hash_block(blockchain[index - 1]):
+            return False
+        if not valid_proof(block['transactions'][:-1], block['previous_hash'], block['proof']):
+            print("Invalid proof of work")
             return False
     return True
 
