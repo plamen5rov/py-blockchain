@@ -46,8 +46,8 @@ def load_data():
                         ('amount', tx['amount'])])
                 updated_transactions.append(updated_transaction)
             open_transactions = updated_transactions
-    except IOError:
-        print('Missing blockchain file!')
+    except (IOError, IndexError):
+        print('Missing or empty blockchain file!')
         genesis_block = {
             'previous_hash': '', 
             'index': 0, 
@@ -185,7 +185,6 @@ def print_blocks():
     for block in blockchain:
         print("Outputting block")
         print(block)
-    else:
         print("-" * 20)
 
 
