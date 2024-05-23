@@ -8,26 +8,19 @@ import pickle
 
 # Initializing our blockchain list
 MINING_REWARD = 10
-
-genesis_block = {
-    'previous_hash': '', 
-    'index': 0, 
-    'transactions': [],
-    'proof': 100
-}
-blockchain = [genesis_block]
+blockchain = []
 open_transactions = []
 owner = 'Plam'
 participants = {'Plam'}
 
 def load_data():
+    global blockchain
+    global open_transactions
     try:
         with open('blockchain.txt', mode='r') as f:
             # file_content = pickle.loads(f.read())
             # print(file_content)
             file_content = f.readlines()
-            global blockchain
-            global open_transactions
             # blockchain = file_content['chain']
             # open_transactions = file_content['ot']     
             blockchain = json.loads(file_content[0][:-1]) 
@@ -54,7 +47,15 @@ def load_data():
                 updated_transactions.append(updated_transaction)
             open_transactions = updated_transactions
     except IOError:
-        print('Missing blockchain file!') 
+        print('Missing blockchain file!')
+        genesis_block = {
+            'previous_hash': '', 
+            'index': 0, 
+            'transactions': [],
+            'proof': 100
+        }
+        blockchain = [genesis_block]
+        open_transactions = []
     finally:
         print('Cleanup!')     
 
@@ -62,18 +63,23 @@ load_data()
 
   
 def save_data():
-    with open('blockchain.txt', mode='w') as f:
-        f.write(json.dumps(blockchain))
-        f.write('\n')
-        f.write(json.dumps(open_transactions))
-        # save_data = {
-        #     'chain': blockchain,
-        #     'ot': open_transactions
-        # }
-        # f.write(pickle.dumps(save_data))      
+    """Saves data in the database file."""
+    try:
+        with open('blockchain.txt', mode='w') as f:
+            f.write(json.dumps(blockchain))
+            f.write('\n')
+            f.write(json.dumps(open_transactions))
+            # save_data = {
+            #     'chain': blockchain,
+            #     'ot': open_transactions
+            # }
+            # f.write(pickle.dumps(save_data))     
+    except IOError: 
+        print("Saving data failed!")
         
         
 def valid_proof(transactions, last_hash, proof):
+    """Checks if the proof is valid"""
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
     guess_hash = hash_string_256(guess)
     print(guess_hash)
@@ -81,6 +87,7 @@ def valid_proof(transactions, last_hash, proof):
 
 
 def proof_of_work():
+    """Returns the proof of work"""
     last_block = blockchain[-1]
     last_hash = hash_block(last_block)
     proof = 0
@@ -90,6 +97,7 @@ def proof_of_work():
 
 
 def get_balance(participant):
+    """Returns the balance of the participant"""
     tx_sender = [[tx['amount'] for tx in block['transactions'] if tx['sender'] == participant]for block in blockchain]
     open_tx_sender = [tx['amount'] for tx in open_transactions if tx['sender'] == participant]
     tx_sender.append(open_tx_sender)
@@ -107,6 +115,7 @@ def get_last_blockchain_value():
 
 
 def verify_transaction(transaction):
+    """ Verifies a transaction"""
     sender_balance = get_balance(transaction['sender'])
     return sender_balance >= transaction['amount']
         
@@ -135,6 +144,7 @@ def add_transaction(recipient,sender=owner, amount=1.0):
     
     
 def mine_block():
+    """Mining block"""
     last_block = blockchain[-1]
     hashed_block =  hash_block(last_block)
     proof = proof_of_work()
@@ -158,17 +168,20 @@ def mine_block():
 
 
 def get_transaction_value():
+    """Returns the transaction value"""
     tx_recipient = input("Enter the recipient: ")
     tx_amount = float(input('Please, enter transaction amount: '))
     return (tx_recipient, tx_amount)
     
     
 def get_user_choice():
+    """Returns the user choice"""
     user_input = input('Your choice: ')
     return user_input
 
 
 def print_blocks():
+    """Prints blocks"""
     for block in blockchain:
         print("Outputting block")
         print(block)
@@ -190,6 +203,7 @@ def verify_chain():
 
         
 def verify_transactions():
+    """Verifies transactions"""
     return all([verify_transactions(tx) for tx in open_transactions])
 
     # is_valid = True
@@ -260,3 +274,4 @@ else:
 
 
 print("Done!")
+# End-of-file (EOF)
