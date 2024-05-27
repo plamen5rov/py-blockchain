@@ -10,7 +10,7 @@ MINING_REWARD = 10
 blockchain = []
 open_transactions = []
 owner = 'Plam'
-participants = {'Plam'}
+
 
 def load_data():
     """Loading data from the blockchain"""
@@ -234,8 +234,7 @@ while waiting_for_input:
     print("1: Add new transaction")
     print("2: Mine new blocks")
     print("3: Output the blocks")
-    print("4: Output the participants")
-    print("5: Check transaction validity")
+    print("4: Check transaction validity")
     # print("h: Manipulate the chain")
     print("q: Quit program")
     user_choice = get_user_choice()
@@ -256,8 +255,6 @@ while waiting_for_input:
     elif user_choice == '3':
         print_blocks()
     elif user_choice == '4':
-        print(participants)
-    elif user_choice == '5':
         if verify_transactions():
             print('All transactions are valid')
         else:
@@ -286,4 +283,3 @@ else:
 
 
 print("Done!")
-# End-of-file (EOF)
