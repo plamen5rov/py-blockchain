@@ -1,7 +1,8 @@
+"""Outer imports"""
+import json
+# import pickle
 from functools import reduce
 from block import Block
-import json
-import pickle
 from hash_util import hash_string_256, hash_block
 from transaction import Transaction
 
@@ -9,7 +10,7 @@ from transaction import Transaction
 MINING_REWARD = 10
 blockchain = []
 open_transactions = []
-owner = 'Plam'
+tx_owner = 'Plam'
 
 
 def load_data():
@@ -130,7 +131,7 @@ def verify_transaction(transaction):
     return sender_balance >= transaction.amount
         
     
-def add_transaction(recipient,sender=owner, amount=1.0):
+def add_transaction(recipient,sender=tx_owner, amount=1.0):
     """ Appends new value of the current blockchain
     
     Arguments:
@@ -162,11 +163,11 @@ def mine_block():
     
     # reward_transaction = {
     #     'sender': 'MINING', 
-    #     'recipient': owner, 
+    #     'recipient': tx_owner, 
     #     'amount': MINING_REWARD
     #     }
-    reward_transaction = Transaction('MINING', owner, MINING_REWARD)
-    # reward_transaction = OrderedDict([('sender', 'MINING'), ('recipient', owner), ('amount', MINING_REWARD)])
+    reward_transaction = Transaction('MINING', tx_owner, MINING_REWARD)
+    # reward_transaction = OrderedDict([('sender', 'MINING'), ('recipient', tx_owner), ('amount', MINING_REWARD)])
     copied_transactions = open_transactions[:]
     copied_transactions.append(reward_transaction)
     block = Block(len(blockchain), hashed_block, copied_transactions, proof)
@@ -275,7 +276,7 @@ while waiting_for_input:
         print("Invalid blockchain!")
         break
     print('$' * 40)
-    print('The balance of {} is: {:6.2f} coins.'.format(owner, get_balance(owner)))
+    print('The balance of {} is: {:6.2f} coins.'.format(tx_owner, get_balance(tx_owner)))
     print('$' * 40)
     
 else:
