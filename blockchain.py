@@ -67,8 +67,8 @@ class Blockchain:
         last_block = self.__chain[-1]
         last_hash = hash_block(last_block)
         proof = 0
-        
-        while not Verification.valid_proof(self.__open_transactions, last_hash, proof):
+        open_transactions = self.__open_transactions
+        while not Verification.valid_proof(open_transactions, last_hash, proof):
             proof += 1
         return proof
 
