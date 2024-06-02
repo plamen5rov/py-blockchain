@@ -1,2 +1,2 @@
-[{"index": 0, "previous_hash": "", "timestamp": 0, "transactions": [], "proof": 100}, {"index": 1, "previous_hash": "c775ae7455f086e2fc68520d31bfebfdb18ffeaceb933085c510d5f8d2177813", "timestamp": 1717323782.3143127, "transactions": [{"sender": "MINING", "recipient": "Plamen", "amount": 10}], "proof": 92}, {"index": 2, "previous_hash": "fab61a303b9f3198787a46c40eef82300389c17bd09842b7e2b3bf7f06d3350d", "timestamp": 1717323804.3694682, "transactions": [{"sender": "Plamen", "recipient": "Pola", "amount": 2.0}, {"sender": "MINING", "recipient": "Plamen", "amount": 10}], "proof": 863}]
-[]
+[{"index": 0, "previous_hash": "", "timestamp": 0, "transactions": [], "proof": 100}, {"index": 1, "previous_hash": "c775ae7455f086e2fc68520d31bfebfdb18ffeaceb933085c510d5f8d2177813", "timestamp": 1717343041.2740536, "transactions": [{"sender": "MINING", "recipient": "Plamen", "amount": 10}], "proof": 92}]
+[{"sender": "Plamen", "recipient": "Bob", "amount": 2.0}]
