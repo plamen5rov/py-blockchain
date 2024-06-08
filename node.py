@@ -1,13 +1,14 @@
 from uuid import uuid4
 from blockchain import Blockchain
 from utility.verification import Verification
+from wallet import Wallet
 
 class Node:
     """Class Node"""
     def __init__(self):
-        # self.id = str(uuid4())
-        self.id = 'Plamen'
-        self.blockchain = Blockchain(self.id)
+        # self.wallet.public_key = str(uuid4())
+        self.wallet = Wallet()
+        self.blockchain = Blockchain(self.wallet.public_key)
         
     def get_transaction_value(self):
         """Returns the transaction value"""
@@ -39,13 +40,15 @@ class Node:
             print("2: Mine new blocks")
             print("3: Output the blocks")
             print("4: Check transaction validity")
+            print("5: Create wallet")
+            print("6: Load wallet")
             # print("h: Manipulate the chain")
             print("q: Quit program")
             user_choice = self.get_user_choice()
             if user_choice == '1':
                 tx_data = self.get_transaction_value()
                 recipient, amount = tx_data
-                if self.blockchain.add_transaction(recipient, self.id, amount=amount):
+                if self.blockchain.add_transaction(recipient, self.wallet.public_key, amount=amount):
                     print('Transaction Added!')
                 else:
                     print('*' * 80)
@@ -61,6 +64,10 @@ class Node:
                     print('All transactions are valid')
                 else:
                     print('All transactions are NOT valid')
+            elif user_choice == '5':
+                self.wallet.create_keys()
+            elif user_choice == '6':
+                pass
             elif user_choice == 'q':
                 waiting_for_input = False
             else:
@@ -71,7 +78,7 @@ class Node:
                 print("Invalid blockchain!")
                 break
             print('$' * 40)
-            print('The balance of {} is: {:6.2f} coins.'.format(self.id, self.blockchain.get_balance()))
+            print('The balance of {} is: {:6.2f} coins.'.format(self.wallet.public_key, self.blockchain.get_balance()))
             print('$' * 40)
             
         else:
