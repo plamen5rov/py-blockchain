@@ -8,7 +8,7 @@ class Node:
     def __init__(self):
         # self.wallet.public_key = str(uuid4())
         self.wallet = Wallet()
-        self.blockchain = Blockchain(self.wallet.public_key)
+        self.blockchain = None
         
     def get_transaction_value(self):
         """Returns the transaction value"""
@@ -56,7 +56,8 @@ class Node:
                     print('*' * 80)
                 print(self.blockchain.get_open_transactions())
             elif user_choice == '2':
-                self.blockchain.mine_block()
+                if not self.blockchain.mine_block():
+                    print('Mining failed! Got no wallet?')
             elif user_choice == '3':
                 self.print_blocks()
             elif user_choice == '4':
@@ -66,6 +67,7 @@ class Node:
                     print('All transactions are NOT valid')
             elif user_choice == '5':
                 self.wallet.create_keys()
+                self.blockchain = Blockchain(self.wallet.public_key)
             elif user_choice == '6':
                 pass
             elif user_choice == 'q':
