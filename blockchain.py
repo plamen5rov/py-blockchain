@@ -92,7 +92,7 @@ class Blockchain:
         return self.__chain[-1]
         
     
-    def add_transaction(self, recipient,sender, amount=1.0):
+    def add_transaction(self, recipient,sender, signature, amount=1.0):
         """ Appends new value of the current blockchain
         
         Arguments:

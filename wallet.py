@@ -1,7 +1,10 @@
 """Wallet Class for using with blockchain transactions"""
 import binascii
 from Crypto.PublicKey import RSA
+from Crypto.Signature import PKCS1_v1_5
+from Crypto.Hash import SHA256
 import Crypto.Random
+
 
 class Wallet:
     def __init__(self):
@@ -43,4 +46,10 @@ class Wallet:
                 self.public_key = public_key
         except (IOError, IndexError):
             print('Loading wallet failed...')
-        
+            
+            
+    def sign_transaction(self, sender, recipient, amount):
+        signer = PKCS1_v1_5.new(RSA.importKey(binascii.unhexlify(self.private_key)))
+        h = SHA256.new((str(sender) + str(recipient) + str(amount)).encode('utf8'))
+        signature = signer.sign(h)
+        return binascii.hexlify(signature).decode('ascii')
